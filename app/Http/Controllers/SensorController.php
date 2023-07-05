@@ -74,23 +74,31 @@ public function getData(){
                     ->get();
     $sensorBId = $sensorBData[0]->branch_tank_data_id;
     $volumeB = $sensorBData[0]->volume;
+    $leakage=false;
     $difference = $volumeA - $volumeB;
-
-    if($difference>=0.5){
+    
+    if($difference>=0.4){
         $result = DB::table('leakage')->insert(
 
         ['branch_tank_data_id'=> $sensorBId]
 
         );
+        $leakage=true;
     };
 
     //charts data
     $sensorAChartData = DB::table('main_tank')
+                    ->limit(200)
                     ->get();
+    $sensorBChartData = DB::table('branch_tank')
+                        ->limit(200)
+                        ->get();
      $response = [
          'main_tank_data' => $sensorAData,
         'branch_tank_data' => $sensorBData,
         'sensorA_chart_data'=>$sensorAChartData,
+        'sensorB_chart_data'=>$sensorBChartData,
+        'leakage'=>$leakage
         ];
     
     return response()->json($response);

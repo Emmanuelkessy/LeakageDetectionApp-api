@@ -94,14 +94,16 @@ class UserController extends Controller
                         -> select('email','user_password')
                         ->where('email','=',$email)
                         ->get();
-        $queryResults = json_decode($result);
-        $userPassword = $queryResults[0]->user_password;
+         $queryResults = json_decode($result);
+        
+         $userPassword = $queryResults[0]->user_password;
         if($result->isEmpty()){
             return response()->json('user not registered');
         }
         else if (Hash::check($userpassword, $userPassword)){
             return response()->json([
-            'message'=>"success"
+            'message'=>"success",
+            'email'=>$email
             ]);
         }else{
             return response()->json('invalid username or password');
