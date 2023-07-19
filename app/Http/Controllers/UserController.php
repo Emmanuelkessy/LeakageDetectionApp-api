@@ -31,7 +31,7 @@ class UserController extends Controller
             'lastName'=> 'required|alpha',
             'email'=>'required|email|max:30',
             'phoneNumber'=>'required|alpha_dash|min:10',
-            'position'=>'required',
+            'position'=>'required|alpha',
             'password'=>'required'
         ]); 
 
